@@ -31,6 +31,7 @@ impl<T> Stack<T> {
     /// use hay::Stack;
     /// let mut stack: Stack<i32> = Stack::<i32>::new();
     /// ```
+    #[must_use]
     #[inline(always)]
     pub const fn new() -> Self {
         Self { vec: Vec::new() }
