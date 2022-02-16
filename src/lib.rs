@@ -3,6 +3,10 @@
 #![warn(missing_docs)]
 extern crate alloc;
 use alloc::vec::Vec;
+use core::{
+    iter::Extend,
+    ops::{Deref, DerefMut},
+};
 
 /// A growable and shrinkable stack array type.
 ///
@@ -128,5 +132,42 @@ impl<T> Stack<T> {
     #[inline(always)]
     pub fn as_mut_vec(&mut self) -> &mut Vec<T> {
         &mut self.vec
+    }
+}
+impl<T> Deref for Stack<T> {
+    /// The resulting type when dereferencing `Stack<T>`.
+    type Target = [T];
+
+    /// Dereferences a `Stack<T>`.
+    fn deref(&self) -> &Self::Target {
+        &self.vec
+    }
+}
+impl<T> DerefMut for Stack<T> {
+    /// Mutably dereferences a `Stack<T>`.
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.vec
+    }
+}
+impl<T> Extend<T> for Stack<T> {
+    /// Pushes a collection of values onto a stack.
+    fn extend<I: IntoIterator<Item = T>>(&mut self, iter: I) {
+        // Iterating through each new value.
+        for value in iter {
+            // Pushing the value onto the stack.
+            // This works because `value` is moved.
+            self.push(value);
+        }
+    }
+}
+impl<'a, T: 'a + Copy> Extend<&'a T> for Stack<T> {
+    /// Pushes a collection of values onto a stack.
+    fn extend<I: IntoIterator<Item = &'a T>>(&mut self, iter: I) {
+        // Iterating through each new value.
+        for value in iter {
+            // Pushing the value onto the stack.
+            // This works because `T` implements `Copy`.
+            self.push(*value);
+        }
     }
 }
