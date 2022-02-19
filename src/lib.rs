@@ -190,22 +190,14 @@ impl<T> DerefMut for Stack<T> {
 impl<T> Extend<T> for Stack<T> {
     /// Pushes a collection of values onto a stack.
     fn extend<I: IntoIterator<Item = T>>(&mut self, iter: I) {
-        // Iterating through each new value.
-        for value in iter {
-            // Pushing the value onto the stack.
-            // This works because `value` is moved.
-            self.push(value);
-        }
+        // Moving all new values onto the stack.
+        self.vec.extend(iter);
     }
 }
 impl<'a, T: 'a + Copy> Extend<&'a T> for Stack<T> {
     /// Pushes a collection of values onto a stack.
     fn extend<I: IntoIterator<Item = &'a T>>(&mut self, iter: I) {
-        // Iterating through each new value.
-        for value in iter {
-            // Pushing the value onto the stack.
-            // This works because `T` implements `Copy`.
-            self.push(*value);
-        }
+        // Copying all new values onto the stack.
+        self.vec.extend(iter);
     }
 }
