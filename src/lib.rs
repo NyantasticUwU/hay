@@ -41,6 +41,44 @@ impl<T> Stack<T> {
         Self { vec: Vec::new() }
     }
 
+    /// Returns a reference to the top element in the stack.
+    ///
+    /// This is the most recently pushed element.
+    ///
+    /// This element will be removed on a call to `pop()`.
+    /// # Example
+    /// ```
+    /// use hay::Stack;
+    /// let mut stack = Stack::new();
+    /// stack.push(1);
+    /// assert_eq!(stack.top(), Some(&1));
+    /// stack.pop();
+    /// assert_eq!(stack.top(), None);
+    /// ```
+    #[inline(always)]
+    pub fn top(&self) -> Option<&T> {
+        self.vec.last()
+    }
+
+    /// Returns a mutable reference to the top element in the stack.
+    ///
+    /// This is the most recently pushed element.
+    ///
+    /// This element will be removed on a call to `pop()`.
+    /// # Example
+    /// ```
+    /// use hay::Stack;
+    /// let mut stack = Stack::new();
+    /// stack.push(1);
+    /// assert_eq!(stack.top_mut(), Some(&mut 1));
+    /// stack.pop();
+    /// assert_eq!(stack.top_mut(), None);
+    /// ```
+    #[inline(always)]
+    pub fn top_mut(&mut self) -> Option<&mut T> {
+        self.vec.last_mut()
+    }
+
     /// Appends an element to the top of the stack.
     /// # Panics
     /// Panics if the new capacity exceeds `isize::MAX`.

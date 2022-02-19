@@ -1,4 +1,5 @@
 # Latest
+- Added `Stack::top` and `Stack::top_mut`.
 - Implemented `Deref`, `DerefMut`, `Extend<T>`, and `Extend<&'_ T>` for `Stack`.
 - `Stack::new` is now `#[must_use]`.
 # 0.1.0
